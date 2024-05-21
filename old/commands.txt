@@ -1,0 +1,1 @@
+k get ns = lista os namespaces
