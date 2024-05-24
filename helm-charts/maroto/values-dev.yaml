@@ -5,3 +5,5 @@ resources:
   limits:
     memory: "64Mi"
     cpu: "500m"
+
+replicaCount: 5

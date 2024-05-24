@@ -32,10 +32,27 @@ spec:
               containerPort: {{ .Values.service.port }}
               protocol: TCP
           livenessProbe:
-            {{- toYaml .Values.livenessProbe | nindent 12 }}
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 1
+            periodSeconds: 1
           readinessProbe:
-            {{- toYaml .Values.readinessProbe | nindent 12 }}
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 1
+            periodSeconds: 1
+          env:
+          - name: DELAY_VALUE
+            value: "{{ .Values.env.delayValue }}"
+          {{ if .Values.env.serviceName }}
+          - name: NEXT_SVC_URL
+            value: "{{ .Values.env.serviceName }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.port }}"
+          {{ end }}
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name  #downwardAPI
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}

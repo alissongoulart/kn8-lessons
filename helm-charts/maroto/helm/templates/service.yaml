@@ -4,6 +4,7 @@ metadata:
   name: {{ include "maroto.fullname" . }}
   labels:
     {{- include "maroto.labels" . | nindent 4 }}
+    bla: bla
 spec:
   type: {{ .Values.service.type }}
   ports:
